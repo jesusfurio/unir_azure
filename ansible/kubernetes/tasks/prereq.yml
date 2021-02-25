@@ -1,0 +1,35 @@
+---
+- name: Añadiendo hosts Kubernetes
+  lineinfile:
+    path: /etc/hosts
+    line: '{{ item }}'
+  loop:
+    - "{{ nfs }} nfs nfs.acme.es"
+    - "{{ master }} master master.acme.es"
+    - "{{ worker }} worker01 worker01.acme.es"
+- name: Añadiendo módulos del kernel
+  modprobe:
+    name: br_netfilter
+    state: present
+- name: Configurando Firewalld
+  firewalld:
+    masquerade: yes
+    permanent: true
+    state: enabled
+- name: Habilitar servicio firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+    enabled: True
+- name: Copiando fichero k8s.conf
+  copy:
+    src: ../files/k8s.conf
+    dest: /etc/sysctl.d/k8s.conf
+- name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+  shell: |
+    swapoff -a
+- name: Disable SWAP in fstab since kubernetes can't work with swap enabled (2/2)
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'

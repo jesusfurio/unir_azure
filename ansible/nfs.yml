@@ -2,7 +2,9 @@
 - name: Install NFS Service
   hosts: nfs
   become: true
-
+  vars:
+    master: "10.22.21.147"
+    worker: "10.22.21.151"
   tasks:
     - name: Actualización de SO
       dnf:
@@ -16,11 +18,15 @@
         state: latest
     - name: Desactivación de SELinux
       command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+    - name: Crear directorio NFS
+      file:
+        path: /srv/nfs
+        state: directory
     - name: Instalación de paquetes
       dnf:
         name: '{{ item }}'
         state: latest
-      with_items:
+      loop:
         - nfs-utils
         - nfs4-acl-tools
         - wget
@@ -35,3 +41,27 @@
         name: nfs-server
         state: started
         enabled: True
+    - name: Añadiendo hosts Kubernetes
+      lineinfile:
+        path: /etc/exports
+        line: '{{ item }}'
+      loop:
+        - "/srv/nfs	{{ master }}(rw,sync)"
+        - "/srv/nfs	{{ worker }}(rw,sync)"
+    - name: Releemos fichero exports
+      command: '{{ item }}'
+      loop:
+        - exportfs -r
+        - exportfs -s
+    - name: Habilitar servicio firewalld
+      systemd:
+        name: firewalld
+        state: started
+        enabled: True
+    - name: Abriendo puertos en Firewalld
+      firewalld:
+        service: '{{ item }}'
+        state: enabled
+      loop:
+        - nfs
+        - mountd
