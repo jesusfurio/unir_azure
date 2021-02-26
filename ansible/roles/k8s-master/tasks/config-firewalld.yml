@@ -1,0 +1,30 @@
+---
+- firewalld:
+    port: 6443/tcp
+    permanent: true
+    state: enabled
+- firewalld:
+    port: 2379-2380/tcp
+    permanent: true
+    state: enabled
+- firewalld:
+    port: 10250/tcp
+    permanent: true
+    state: enabled
+- firewalld:
+    port: 10251/tcp
+    permanent: true
+    state: enabled
+- firewalld:
+    port: 10252/tcp
+    permanent: true
+    state: enabled
+- firewalld:
+    port: 10255/tcp
+    permanent: true
+    state: enabled
+- name: Refrescar servicio firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+    enabled: True

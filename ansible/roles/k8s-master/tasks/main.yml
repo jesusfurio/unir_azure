@@ -1,2 +1,9 @@
 ---
-# tasks file for k8s-master
+- name: Configurando FirewallD
+  include_tasks: "./tasks/config-firewalld.yml"
+- name: Configurando kubeadm
+  include_tasks: "./tasks/config-kubeadm.yml"
+- name: Configurando kubectl
+  include_tasks: "./tasks/config-root-access.yml"
+- name: Configurando Calico
+  include_tasks: "./tasks/config-calico.yml"
