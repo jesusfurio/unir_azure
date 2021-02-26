@@ -1,0 +1,17 @@
+---
+- name: Actualización de SO
+  dnf:
+    name: "*"
+    state: latest
+- name: Configuración de sincronización horaria
+  command: timedatectl set-timezone Europe/Madrid
+- name: Instalación de Chrony
+  dnf:
+    name: chrony
+    state: latest
+- name: Desactivación de SELinux
+  command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+- name: Crear directorio NFS
+  file:
+    path: /srv/nfs
+    state: directory
