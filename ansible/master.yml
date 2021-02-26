@@ -2,6 +2,7 @@
 - name: Instalando Prerrequisitos
   hosts: k8snodes
   become: true
+  vars:
     nfs: "10.22.21.148"
     master: "10.22.21.147"
     worker: "10.22.21.151"
