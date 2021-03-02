@@ -6,7 +6,7 @@ resource "azurerm_virtual_machine" "unir_master" {
     location              = azurerm_resource_group.unir_rg.location
     resource_group_name   = azurerm_resource_group.unir_rg.name
     network_interface_ids = [azurerm_network_interface.unir_master_nic.id]
-    vm_size                  = "Standard_DS1_v2"
+    vm_size                  = "Standard_D2S_v3"
     storage_os_disk {
         name              = "masterosdisk.disk0"
         caching           = "ReadWrite"
