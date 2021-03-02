@@ -6,7 +6,8 @@
   loop:
     - "{{ nfs }} nfs nfs.acme.es"
     - "{{ master }} master master.acme.es"
-    - "{{ worker }} worker01 worker01.acme.es"
+    - "{{ worker0 }} worker01 worker01.acme.es"
+    - "{{ worker1 }} worker02 worker02.acme.es"
 - name: Añadiendo módulos del kernel
   modprobe:
     name: br_netfilter

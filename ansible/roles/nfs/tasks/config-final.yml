@@ -5,7 +5,8 @@
     line: '{{ item }}'
   loop:
     - "/srv/nfs	{{ master }}(rw,sync)"
-    - "/srv/nfs	{{ worker }}(rw,sync)"
+    - "/srv/nfs	{{ worker0 }}(rw,sync)"
+    - "/srv/nfs	{{ worker1 }}(rw,sync)"
 - name: Releemos fichero exports
   command: '{{ item }}'
   loop:

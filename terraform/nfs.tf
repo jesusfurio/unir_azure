@@ -47,6 +47,7 @@ resource "azurerm_network_interface" "unir_nfs_nic" {
         name                          = "VMNicConfiguration"
         subnet_id                     = azurerm_subnet.unir_subnet.id
         private_ip_address_allocation = "Dynamic"
+        public_ip_address_id = azurerm_public_ip.public_ip_nfs.id
     }
 }
 # Create data disk attached to virtual machine

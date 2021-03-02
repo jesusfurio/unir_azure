@@ -40,6 +40,7 @@ resource "azurerm_network_interface" "unir_worker_nic" {
         name                          = "VMNicConfiguration"
         subnet_id                     = azurerm_subnet.unir_subnet.id
         private_ip_address_allocation = "Dynamic"
+        public_ip_address_id = azurerm_public_ip.public_ip_workers[count.index].id
     }
 }
 
