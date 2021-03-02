@@ -1,0 +1,25 @@
+---
+- name: Añadiendo hosts Kubernetes
+  lineinfile:
+    path: /etc/exports
+    line: '{{ item }}'
+  loop:
+    - "/srv/nfs	{{ master }}(rw,sync)"
+    - "/srv/nfs	{{ worker }}(rw,sync)"
+- name: Releemos fichero exports
+  command: '{{ item }}'
+  loop:
+    - exportfs -r
+    - exportfs -s
+- name: Habilitar servicio firewalld
+  systemd:
+    name: firewalld
+    state: started
+    enabled: True
+- name: Abriendo puertos en Firewalld
+  firewalld:
+    service: '{{ item }}'
+    state: enabled
+  loop:
+    - nfs
+    - mountd

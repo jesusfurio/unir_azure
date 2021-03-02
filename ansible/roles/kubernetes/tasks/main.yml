@@ -1,0 +1,7 @@
+---
+- name: Instalando prerrequisitos
+  include_tasks: "./tasks/config-prereq.yml"
+- name: Instalando Docker
+  include_tasks: "./tasks/config-docker.yml"
+- name: Instalando Kubernetes
+  include_tasks: "./tasks/config-kubernetes.yml"

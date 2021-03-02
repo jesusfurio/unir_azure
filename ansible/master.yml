@@ -1,0 +1,5 @@
+- name: Configurando master
+  hosts: master
+  become: true
+  roles:
+    - ./roles/k8s-master

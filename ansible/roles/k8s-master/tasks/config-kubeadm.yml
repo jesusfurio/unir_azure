@@ -1,0 +1,17 @@
+---
+- name: Configurando kubeadm
+  command: kubeadm config images pull
+  register: configkubeadm
+- debug: msg="{{ configkubeadm.stdout }}"
+- name: Configurando firewalld con red de Docker
+  command: firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address=172.17.0.0/16 accept'
+- name: Refrescar servicio firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+    enabled: True
+- name: Configurando red de los pods
+  command: kubeadm init --pod-network-cidr 192.169.0.0/16
+  ignore_errors: True
+  register: configpodnet
+- debug: msg="{{ configpodnet.stdout }}"

@@ -1,0 +1,17 @@
+---
+- name: Copiando fichero kubernetes.repo
+  copy:
+    src: ../files/kubernetes.repo
+    dest: /etc/yum.repos.d/kubernetes.repo
+- name: Instalando paquetes de Kubernetes
+  command: dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+- name: Habilitar kubelet
+  systemd:
+    name: kubelet
+    enabled: yes
+    masked: no
+- name: Iniciar kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: True

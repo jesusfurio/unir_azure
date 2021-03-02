@@ -1,0 +1,24 @@
+---
+- name: Instalando prerrequisitos
+  include_tasks: "./tasks/config-prereq.yml"
+- name: Instalación de paquetes
+  dnf:
+    name: '{{ item }}'
+    state: latest
+  loop:
+    - nfs-utils
+    - nfs4-acl-tools
+    - wget
+    - net-tools
+- name: Habilitar servicio NFS
+  systemd:
+    name: nfs-server
+    enabled: yes
+    masked: no
+- name: Iniciar servicio NFS
+  systemd:
+    name: nfs-server
+    state: started
+    enabled: True
+- name: Finalizando configuración
+  include_tasks: "./tasks/config-final.yml"
