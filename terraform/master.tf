@@ -44,8 +44,8 @@ resource "azurerm_network_interface" "unir_master_nic" {
 
 resource "azurerm_public_ip" "public_ip_master" {
     name                = "masterip"
-    location            = azurerm_resource_group.rg.location
-    resource_group_name = azurerm_resource_group.rg.name
+    location            = azurerm_resource_group.unir_rg.location
+    resource_group_name = azurerm_resource_group.unir_rg.name
     allocation_method   = "Dynamic"
     sku                 = "Basic"
 }

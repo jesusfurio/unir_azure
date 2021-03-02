@@ -61,8 +61,8 @@ resource "azurerm_managed_disk" "unir_nfs_manageddisk" {
 
 resource "azurerm_public_ip" "public_ip_nfs" {
     name                = "nfsip"
-    location            = azurerm_resource_group.rg.location
-    resource_group_name = azurerm_resource_group.rg.name
+    location            = azurerm_resource_group.unir_rg.location
+    resource_group_name = azurerm_resource_group.unir_rg.name
     allocation_method   = "Dynamic"
     sku                 = "Basic"
 }
