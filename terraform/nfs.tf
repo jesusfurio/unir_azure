@@ -59,7 +59,7 @@ resource "azurerm_managed_disk" "unir_nfs_manageddisk" {
     disk_size_gb         = "10"
 }
 
-resource "azurerm_public_ip" "public_ip" {
+resource "azurerm_public_ip" "public_ip_nfs" {
     name                = "nfsip"
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
