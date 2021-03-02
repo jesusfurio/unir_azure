@@ -41,3 +41,11 @@ resource "azurerm_network_interface" "unir_master_nic" {
         private_ip_address_allocation = "Dynamic"
     }
 }
+
+resource "azurerm_public_ip" "public_ip" {
+    name                = "masterip"
+    location            = azurerm_resource_group.rg.location
+    resource_group_name = azurerm_resource_group.rg.name
+    allocation_method   = "Dynamic"
+    sku                 = "Basic"
+}

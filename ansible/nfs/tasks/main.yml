@@ -10,6 +10,9 @@
   dnf:
     name: chrony
     state: latest
+- name: Habilitar Chrony
+  systemd:
+    state: 
 - name: Desactivación de SELinux
   template:
 - name: Instalación de paquetes

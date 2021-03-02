@@ -42,3 +42,11 @@ resource "azurerm_network_interface" "unir_worker_nic" {
         private_ip_address_allocation = "Dynamic"
     }
 }
+
+resource "azurerm_public_ip" "public_ip" {
+    count               = 2
+    name                = "worker${count.index}ip"
+    resource_group_name = azurerm_resource_group.rg.name
+    allocation_method   = "Dynamic"
+    sku                 = "Basic"
+}
