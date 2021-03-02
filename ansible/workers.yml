@@ -1,9 +1,10 @@
+---
 - name: Configurando workers
   hosts: workers
   become: true
   vars:
-    master: "40.91.213.158"
+    master: "192.168.1.5"
     token: "csyp2x.sufbra2qm7hewnm6"
-    discovery-token: "sha256:0db8abdcc4c36eed25fe87af1f8c4533710ea4925b44d0820e77b2ef34515932"
+    discoverytoken: "sha256:0db8abdcc4c36eed25fe87af1f8c4533710ea4925b44d0820e77b2ef34515932"
   roles:
     - ./roles/k8s-worker
