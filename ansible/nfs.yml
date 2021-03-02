@@ -3,9 +3,9 @@
   hosts: nfs
   become: true
   vars:
-    master: "10.22.21.147"
-    worker0: "10.22.21.151"
-    worker1: "10.22.21.151"
+    master: "40.91.213.158"
+    worker0: "52.232.96.152"
+    worker1: "51.145.136.34"
   roles:
     - ./roles/nfs
     
