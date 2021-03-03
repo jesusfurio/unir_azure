@@ -1,5 +1,18 @@
 ---
 # tasks file for k8s-worker
+- name: setting firewall 1
+  command: firewall-cmd --zone=public --permanent --add-port=10250/tcp
+  register: firewallconf
+- debug: msg="{{ firewallconf.stdout }}"
+- name: setting firewall 2
+  command: firewall-cmd --zone=public --permanent --add-port=30000-32767/tcp
+  register: firewallconf
+- debug: msg="{{ firewallconf.stdout }}"
+- name: refreshing service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+    enabled: True
 - name: Añadiendo Workers a Master
   command: kubeadm join {{ master }}:6443 --token {{ token }} --discovery-token-ca-cert-hash {{ discoverytoken }} 
   register: addworker

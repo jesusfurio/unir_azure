@@ -9,9 +9,43 @@
   dnf:
     name: chrony
     state: latest
+- name: Habilitar servicio chrony
+  systemd:
+    name: chronyd
+    enabled: yes
+    masked: no
+- name: Iniciar servicio chrony
+  systemd:
+    name: chronyd
+    state: started
+    enabled: True
+- name: set-ntp true
+  command: timedatectl set-ntp true
 - name: Desactivación de SELinux
   command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+- name: vgcreate
+  lvg:
+    vg: data_vg
+    pvs: /dev/sdc    
+- name: lvcreate
+  lvol:
+    vg: data_vg
+    lv: nfs_lv
+    size: 10GB
+- name: create file system
+  filesystem:
+    fstype: ext4
+    dev: /dev/data_vg/nfs_lv
 - name: Crear directorio NFS
   file:
     path: /srv/nfs
     state: directory
+- name: Añadiendo el punto de montaje a fstab
+  command: echo "/dev/data_vg/nfs_lv        /srv/nfs                xfs     defaults        0 0" >> /etc/fstab
+- name: mount logical volume
+  mount:
+    name: /disk
+    src: /dev/data_vg/nfs_lv
+    fstype: ext4
+    state: mounted
+  
