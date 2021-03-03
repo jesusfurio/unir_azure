@@ -1,0 +1,82 @@
+# Ejecutar previamente el siguiente comando en el cluster:
+# kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --user=kube-system --user=default --user=rancher --group=system:serviceaccounts
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rancher
+  name: rancher
+  namespace: rancher
+spec:
+  type: NodePort
+  ports:
+    - name: rancher
+      port: 443
+      protocol: TCP
+      targetPort: 443
+      nodePort: 30000
+  selector:
+    app: rancher
+  
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rancher
+  name: rancher
+  namespace: rancher
+spec:
+  selector:
+      matchLabels:
+        app: rancher
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rancher
+      name: rancher
+      namespace: rancher
+    spec:
+      containers:
+        - name: rancher
+          image: rancher/rancher
+          volumeMounts:
+          - mountPath: "/var/lib/rancher/"
+            name: rancher-data
+          ports:
+          - containerPort: 443
+            protocol: TCP
+      volumes:
+      - name: rancher-data
+        persistentVolumeClaim:
+          claimName: rancher-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rancher-data
+  namespace: rancher
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: default-storageclass
+  resources:
+    requests:
+      storage: 31Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rancher-data
+  namespace: rancher
+spec:
+  storageClassName: default-storageclass
+  capacity:
+    storage: 31Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
