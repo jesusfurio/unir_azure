@@ -1,0 +1,10 @@
+---
+- name: setting workers
+  hosts: workers
+  become: true
+  vars:
+    master: "10.0.1.10"
+    token: "@TOKEN@"
+    discoverytoken: "@DISCOVERY@"
+  roles:
+    - worker
