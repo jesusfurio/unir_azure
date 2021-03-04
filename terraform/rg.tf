@@ -1,5 +1,5 @@
-# Create Resource Group
-resource "azurerm_resource_group" "unir_rg" {
-  name     = "unir_azure_rg"
-  location = var.azure-region
+# resource group
+resource "azurerm_resource_group" "cp2_rg" {
+  name = "cp2_rg"
+  location = var.region
 }

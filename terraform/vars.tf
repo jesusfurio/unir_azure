@@ -1,44 +1,73 @@
-#################
-# Azure RG Vars #
-#################
-
-# Azure Region
-variable "azure-region" {
-  type        = string
+# region vars
+variable "region" {
+  type = string
   default = "westeurope"
 }
 
-######################
-# Azure Network Vars #
-######################
-
-# Azure Virtual Network Range
-variable "azure-vnet-range" {
-  type        = list(string)
-  default = ["192.168.1.0/24","192.168.2.0/24"]
+# network vars
+variable "first_ip" {
+  type = number
+  default = 10
 }
 
-# Azure Subnet Range
-variable "azure-subnet-range" {
-  type        = string
-  default = "192.168.1.0/24"
+variable "dns_sufix" {
+  type = string
+  default = "jfurio"
 }
 
-##################
-# Azure VMs Vars #
-##################
-
-variable "admin_username" {
-  type        = string
-  default = "admnfs"
+# credentials vars
+variable "username" {
+  type = string
+  default = "terra"
 }
 
-variable "admin_password" {
-  type        = string
+variable "password" {
+  type = string
   default = "P@ssw0rd12345.$"
 }
 
-variable "vm_name" {
-  type        = string
-  default = "azvm"
+# resources vars
+variable "virtual_machine" {
+  type = string
+  default = "vm"
+}
+
+variable "k8s_master" {
+  type = string
+  default = "k8smaster"
+}
+
+variable "k8s_worker" {
+  type = string
+  default = "k8sworker"
+}
+
+variable "nfs" {
+  type = string
+  default = "nfs"
+}
+
+variable "osdisk" {
+  type = string
+  default = "osdisk"
+}
+
+variable "stdisk" {
+  type = string
+  default = "stdisk"
+}
+
+variable "public_ip" {
+  type = string
+  default = "public_ip"
+}
+
+variable "nic" {
+  type = string
+  default = "nic"
+}
+
+variable "ipconf" {
+  type = string
+  default = "ipconf"
 }

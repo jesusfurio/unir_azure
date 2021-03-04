@@ -1,51 +1,49 @@
-###################
-# Azure VNet Main #
-###################
-resource "azurerm_virtual_network" "unir_network" {
-    name                = "${azurerm_resource_group.unir_rg.name}.network.d01"
-    location            = azurerm_resource_group.unir_rg.location
-    resource_group_name = azurerm_resource_group.unir_rg.name
-    address_space       = var.azure-vnet-range  
+# main virtual net
+resource "azurerm_virtual_network" "cp2_network" {
+  name = "net.${azurerm_resource_group.cp2_rg.name}"
+  location = azurerm_resource_group.cp2_rg.location
+  resource_group_name = azurerm_resource_group.cp2_rg.name
+  address_space = ["10.0.0.0/16"]
 }
-##################
-# Azure Subnet 1 #
-##################
-resource "azurerm_subnet" "unir_subnet" {
-    name                 = "${azurerm_virtual_network.unir_network.name}-192.168.1.0-24"
-    resource_group_name  = azurerm_resource_group.unir_rg.name
-    virtual_network_name = azurerm_virtual_network.unir_network.name
-    address_prefix     = "${var.azure-subnet-range}"
+
+# main virtual subnet
+resource "azurerm_subnet" "cp2_subnet" {
+  name = "subnet.${azurerm_resource_group.cp2_rg.name}"
+  resource_group_name = azurerm_resource_group.cp2_rg.name
+  virtual_network_name = azurerm_virtual_network.cp2_network.name
+  address_prefix = "10.0.1.0/24"
 }
-# Network Security Group
-resource "azurerm_network_security_group" "unir_nsg" {
-    name                = "${azurerm_virtual_network.unir_network.name}-192.168.1.0-24.nsg"
-    location            = azurerm_resource_group.unir_rg.location
-    resource_group_name = azurerm_resource_group.unir_rg.name
-    security_rule {
-      name = "ssh"
-      priority = 1001
-      direction = "Inbound"
-      access = "Allow"
-      protocol = "Tcp"
-      source_port_range = "*"
-      destination_port_range = "22"
-      source_address_prefix = "*"
-      destination_address_prefix = "*"
-    }
-    security_rule {
-      name = "nodeport"
-      priority = 1002
-      direction = "Inbound"
-      access = "Allow"
-      protocol = "Tcp"
-      source_port_range = "*"
-      destination_port_range = "30000"
-      source_address_prefix = "*"
-      destination_address_prefix = "*"
-    }
+
+# network security group
+resource "azurerm_network_security_group" "cp2_nsg" {
+  name = "security.${azurerm_resource_group.cp2_rg.name}"
+  location = azurerm_resource_group.cp2_rg.location
+  resource_group_name = azurerm_resource_group.cp2_rg.name
+  security_rule {
+    name = "ssh"
+    priority = 1001
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "22"
+    source_address_prefix = "*"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name = "nodeport"
+    priority = 1002
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "30000"
+    source_address_prefix = "*"
+    destination_address_prefix = "*"
+  }
 }
-# Subnet association to NSG
-resource "azurerm_subnet_network_security_group_association" "unir_sb-net_asso" {
-  subnet_id                 = azurerm_subnet.unir_subnet.id
-  network_security_group_id = azurerm_network_security_group.unir_nsg.id
+# subnet association to nsg
+resource "azurerm_subnet_network_security_group_association" "cp2_snsga" {
+  subnet_id = azurerm_subnet.cp2_subnet.id
+  network_security_group_id = azurerm_network_security_group.cp2_nsg.id
 }
