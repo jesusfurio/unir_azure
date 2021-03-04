@@ -12,6 +12,6 @@
   register: deployrancher
 - debug: msg="{{ deployrancher.stdout }}"
 - name: Desplegando rancher
-  command: kubectl apply -f /tmp/rancher/deploy-rancher.yml
+  command: kubectl apply -f /tmp/rancher/rancher-deployment.yml
   register: deployrancher
 - debug: msg="{{ deployrancher.stdout }}"
