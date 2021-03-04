@@ -1,0 +1,17 @@
+---
+- name: Copiando ficheros de rancher
+  copy:
+    src: ../files/
+    dest: /tmp/rancher/
+- name: Creando rancher namespace
+  command: kubectl create namespace rancher
+  register: namespace
+- debug: msg="{{ namespace.stdout }}"
+- name: Creando permisos para rancher
+  command: kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --user=kube-system --user=default --user=rancher --group=system:serviceaccounts
+  register: deployrancher
+- debug: msg="{{ deployrancher.stdout }}"
+- name: Desplegando rancher
+  command: kubectl apply -f /tmp/rancher/deploy-rancher.yml
+  register: deployrancher
+- debug: msg="{{ deployrancher.stdout }}"

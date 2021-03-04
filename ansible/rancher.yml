@@ -1,0 +1,5 @@
+- name: Configurando Rancher
+  hosts: master
+  become: true
+  roles:
+    - rancher

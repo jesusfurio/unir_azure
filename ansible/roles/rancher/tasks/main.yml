@@ -1,0 +1,3 @@
+---
+- name: deploying grafana
+  include_tasks: "./tasks/deploy-grafana.yml"

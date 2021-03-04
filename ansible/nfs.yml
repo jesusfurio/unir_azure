@@ -3,10 +3,10 @@
   hosts: nfs
   become: true
   vars:
-    master: "40.91.213.158"
-    worker0: "52.232.96.152"
-    worker1: "51.145.136.34"
+    master: "master-jfurio.westeurope.cloudapp.azure.com"
+    worker0: "worker0-jfurio.westeurope.cloudapp.azure.com"
+    worker1: "worker1-jfurio.westeurope.cloudapp.azure.com"
   roles:
-    - ./roles/nfs
+    - nfs
     
     

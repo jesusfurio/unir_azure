@@ -23,6 +23,8 @@
   command: timedatectl set-ntp true
 - name: Desactivación de SELinux
   command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+- name: wipe sdc
+  command: wipefs -af /dev/sdc
 - name: vgcreate
   lvg:
     vg: data_vg
@@ -31,7 +33,7 @@
   lvol:
     vg: data_vg
     lv: nfs_lv
-    size: 10GB
+    size: 100%FREE
 - name: create file system
   filesystem:
     fstype: ext4
