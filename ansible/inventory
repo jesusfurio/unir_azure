@@ -1,0 +1,10 @@
+[nfs]
+nfs-jfurio.westeurope.cloudapp.azure.com
+[master]
+k8smaster-jfurio.westeurope.cloudapp.azure.com
+[workers]
+k8sworker0-jfurio.westeurope.cloudapp.azure.com
+k8sworker1-jfurio.westeurope.cloudapp.azure.com
+[k8snodes:children]
+master
+workers
