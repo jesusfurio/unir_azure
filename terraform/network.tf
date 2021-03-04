@@ -22,16 +22,27 @@ resource "azurerm_network_security_group" "unir_nsg" {
     location            = azurerm_resource_group.unir_rg.location
     resource_group_name = azurerm_resource_group.unir_rg.name
     security_rule {
-        name = "ssh"
-        priority = 1001
-        direction = "Inbound"
-        access = "Allow"
-        protocol = "Tcp"
-        source_port_range = "*"
-        destination_port_range = "22"
-        source_address_prefix = "*"
-        destination_address_prefix = "*"
-  }
+      name = "ssh"
+      priority = 1001
+      direction = "Inbound"
+      access = "Allow"
+      protocol = "Tcp"
+      source_port_range = "*"
+      destination_port_range = "22"
+      source_address_prefix = "*"
+      destination_address_prefix = "*"
+    }
+    security_rule {
+      name = "nodeport"
+      priority = 1002
+      direction = "Inbound"
+      access = "Allow"
+      protocol = "Tcp"
+      source_port_range = "*"
+      destination_port_range = "30000"
+      source_address_prefix = "*"
+      destination_address_prefix = "*"
+    }
 }
 # Subnet association to NSG
 resource "azurerm_subnet_network_security_group_association" "unir_sb-net_asso" {
