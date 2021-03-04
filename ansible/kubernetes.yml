@@ -1,6 +1,6 @@
 ---
 - name: installing kubernetes cluster
-  hosts: all
+  hosts: k8snodes
   become: true
   vars:
     user: "terra"
